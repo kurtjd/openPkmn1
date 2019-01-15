@@ -10,6 +10,9 @@ CFLAGS := -Wfloat-equal -Wundef -Wshadow -Wpointer-arith
 CFLAGS := -Wcast-align -Wstrict-prototypes -Wcast-qual -Wswitch-default
 CFLAGS := -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self
 
+# Set include directory
+CFLAGS := -Iinclude
+
 # You MUST keep this for auto-dependency generation.
 CFLAGS += -MMD
 
