@@ -1,0 +1,14 @@
+*.swp*
+*.o
+*.a
+*.d
+.sh
+src/*.o
+src/*.d
+src/*.a
+src/*.sh
+src/git
+sprites/
+music/
+soundfx/
+openPkmn1
