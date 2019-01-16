@@ -1,5 +1,5 @@
-#ifndef GAME_GLOBAL_CONSTANTS_H
-#define GAME_GLOBAL_CONSTANTS_H
+#ifndef DISPLAY_GLOBALS_H
+#define DISPLAY_GLOBALS_H
 
 // These are the screen resolution of the original Gameboy
 #define SCREEN_WIDTH 160

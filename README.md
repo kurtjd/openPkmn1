@@ -1,1 +1,1 @@
-This is a test for Speakonia. Okay.
+This is a recreation of the original Gen 1 Pokemon games in C/SDL.
