@@ -2,21 +2,41 @@
 #include <SDL2/SDL_image.h>
 #include "texture.h"
 
-SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath)
+bool textures_loadAll(Texture* textures[], SDL_Renderer* renderer, const char* texture_file_list[], size_t numtextures)
 {
-	texture_initSetCK(texture, renderer, filepath, false, 0, 0, 0);
+	for (size_t i = 0; i < numtextures; i++)
+	{
+		textures[i] = malloc(sizeof *textures[i]);
+
+		if (!(textures[i]))
+			return false;
+
+		if (!(texture_init(textures[i], renderer, texture_file_list[i], 0, true, 0x00, 0xFF, 0x00)))
+			return false;
+	}
+
+	return true;
 }
 
-SDL_Texture* texture_initSetCK(Texture* texture, SDL_Renderer* renderer, const char* filepath, bool colorkeyon, int r, int g, int b)
+void textures_freeAll(Texture* textures[], size_t numtextures)
 {
-	texture_free(texture);
+	for (size_t i = 0; i < numtextures; i++)
+	{
+		if (textures[i])
+		{
+			texture_free(textures[i]);
+			free(textures[i]);
+			textures[i] = NULL;
+		}
+	}
+}
 
+SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath, int layer, bool colorkeyon, int r, int g, int b)
+{
+	texture->texture = NULL;
 	texture->renderer = renderer;
 
-	if (colorkeyon)
-		texture_loadFromFileSetCK(texture, filepath, true, r, g, b);
-	else
-		texture_loadFromFile(texture, filepath);
+	texture_loadFromFile(texture, filepath, layer, colorkeyon, r, g, b);
 
 	return texture->texture;
 }
@@ -29,15 +49,11 @@ void texture_free(Texture* texture)
 		texture->texture = NULL;
 		texture->width = 0;
 		texture->height = 0;
+		texture->layer = 0;
 	}
 }
 
-SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath)
-{
-	texture_loadFromFileSetCK(texture, filepath, false, 0, 0, 0);
-}
-
-SDL_Texture* texture_loadFromFileSetCK(Texture* texture, const char* filepath, bool colorkeyon, int r, int g, int b)
+SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath, int layer, bool colorkeyon, int r, int g, int b)
 {
 	// Clear the previous texture.
 	texture_free(texture);
@@ -60,6 +76,7 @@ SDL_Texture* texture_loadFromFileSetCK(Texture* texture, const char* filepath, b
 
 		texture->width = surface->w;
 		texture->height = surface->h;
+		texture->layer = layer;
 
 		SDL_FreeSurface(surface);
 	}

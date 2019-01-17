@@ -5,7 +5,7 @@ CC := gcc
 PROG := openPkmn1
 
 # Add whatever compiler flags you want.
-CFLAGS := -std=c99 -pedantic-errors -Wall -Wextra -Werror
+CFLAGS := -std=c99 -g -pedantic-errors -Wall -Wextra -Werror
 CFLAGS := -Wfloat-equal -Wundef -Wshadow -Wpointer-arith
 CFLAGS := -Wcast-align -Wstrict-prototypes -Wcast-qual -Wswitch-default
 CFLAGS := -Wswitch-enum -Wconversion -Wunreachable-code -Winit-self

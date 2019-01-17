@@ -8,14 +8,19 @@
 int main(void)
 {
 	bool userquit = 0; // Whether or not user has quit application
-
+	
 	SDL_Window* gamewindow;
 	SDL_Renderer* gamerenderer;
-	SDL_Init_Full(&gamewindow, &gamerenderer, SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT); 
 
-	Texture pkmntrnr;
-	texture_initSetCK(&pkmntrnr, gamerenderer, "sprites/chars_overworld.png", true, 0, 0xFF, 0);
-	SDL_Rect pkmntrnr_rect = {112, 268, 16, 18};
+	const char* texture_file_list[] = {
+		"sprites/chars_overworld.png",
+		"sprites/tileset.png"
+	};
+	const size_t NUM_TEXTURES = (sizeof texture_file_list / sizeof *texture_file_list);
+	Texture* gametextures[NUM_TEXTURES];
+
+	SDL_Init_Full(&gamewindow, &gamerenderer, SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT); 
+	textures_loadAll(gametextures, gamerenderer, texture_file_list, NUM_TEXTURES);
 
 	while (!userquit)
 	{
@@ -38,12 +43,10 @@ int main(void)
 
 		SDL_RenderClear(gamerenderer);
 		// Render textures here
-		texture_render(&pkmntrnr, (SCREEN_WIDTH / 2) - 8, (SCREEN_HEIGHT / 2) - 9, &pkmntrnr_rect);
 		SDL_RenderPresent(gamerenderer);
 	}
-	printf("%s", SDL_GetError());
 
-	texture_free(&pkmntrnr);
+	textures_freeAll(gametextures, NUM_TEXTURES);
 	SDL_Close(&gamewindow, &gamerenderer);
 
 	return 0;
