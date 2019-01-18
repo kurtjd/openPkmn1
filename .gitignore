@@ -7,8 +7,5 @@ src/*.o
 src/*.d
 src/*.a
 src/*.sh
-sprites/
-music/
-soundfx/
 openPkmn1
 gitquick
