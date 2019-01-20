@@ -10,4 +10,8 @@
 // The max framerate of the game
 #define FPS 60
 
+#define TEXTURE_FILE_PATH "sprites/spritesheet.png"
+
+#define SPRITE_MAX_FRAMES 3
+
 #endif

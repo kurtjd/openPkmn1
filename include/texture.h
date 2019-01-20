@@ -9,7 +9,6 @@ typedef struct
 {
 	int width;
 	int height;
-	int layer; // Which layer this gets drawn to.
 
 	SDL_Texture* texture;
 	SDL_Renderer* renderer;
@@ -21,14 +20,14 @@ bool textures_loadAll(Texture* textures[], SDL_Renderer* renderer, const char* t
 // Frees all textures.
 void textures_freeAll(Texture* textures[], size_t numtextures);
 
-// Initializes a texture with an image and associates a renderer to it as well as setting a color as transparent.
-SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath, int layer, bool colorkeyon, int r, int g, int b);
+// Initializes a texture with an image and associates a renderer.
+SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath);
 
 // Destroys and frees a texture.
 void texture_free(Texture* texture);
 
-// Loads an image into a texture and sets a color to be transparent.
-SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath, int layer, bool colorkeyon, int r, int g, int b);
+// Loads an image into a texture.
+SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath);
 
 // Renders the texture to its associated renderer. If provided a clip, only render that part.
 void texture_render(Texture* texture, int x, int y, SDL_Rect* clip);

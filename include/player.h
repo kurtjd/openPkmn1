@@ -7,6 +7,7 @@
 #include <stdbool.h>
 #include "game_globals.h"
 #include "pkmntext.h"
+#include "sprite.h"
 
 typedef struct
 {
@@ -14,9 +15,11 @@ typedef struct
 	int pokedollars;
 	int time_played;
 	bool badges[NUM_BADGES];
+
+	Sprite* sprite;
 } Player;
 
 // Initializes a player with default stats
-void player_init(Player* player);
+void player_init(Player* player, Sprite* sprite);
 
 #endif

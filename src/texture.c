@@ -11,7 +11,7 @@ bool textures_loadAll(Texture* textures[], SDL_Renderer* renderer, const char* t
 		if (!(textures[i]))
 			return false;
 
-		if (!(texture_init(textures[i], renderer, texture_file_list[i], 0, true, 0x00, 0xFF, 0x00)))
+		if (!(texture_init(textures[i], renderer, texture_file_list[i])))
 			return false;
 	}
 
@@ -31,12 +31,12 @@ void textures_freeAll(Texture* textures[], size_t numtextures)
 	}
 }
 
-SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath, int layer, bool colorkeyon, int r, int g, int b)
+SDL_Texture* texture_init(Texture* texture, SDL_Renderer* renderer, const char* filepath)
 {
 	texture->texture = NULL;
 	texture->renderer = renderer;
 
-	texture_loadFromFile(texture, filepath, layer, colorkeyon, r, g, b);
+	texture_loadFromFile(texture, filepath);
 
 	return texture->texture;
 }
@@ -49,11 +49,10 @@ void texture_free(Texture* texture)
 		texture->texture = NULL;
 		texture->width = 0;
 		texture->height = 0;
-		texture->layer = 0;
 	}
 }
 
-SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath, int layer, bool colorkeyon, int r, int g, int b)
+SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath)
 {
 	// Clear the previous texture.
 	texture_free(texture);
@@ -63,12 +62,6 @@ SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath, int la
 
 	if (surface)
 	{
-		if (colorkeyon)
-		{
-			if (SDL_SetColorKey(surface, SDL_TRUE, SDL_MapRGB(surface->format, r, g, b)) < 0)
-				printf("Could not set color key because %s\n", SDL_GetError());
-		}
-
 		newtexture = SDL_CreateTextureFromSurface(texture->renderer, surface);
 
 		if (!newtexture)
@@ -76,7 +69,6 @@ SDL_Texture* texture_loadFromFile(Texture* texture, const char* filepath, int la
 
 		texture->width = surface->w;
 		texture->height = surface->h;
-		texture->layer = layer;
 
 		SDL_FreeSurface(surface);
 	}

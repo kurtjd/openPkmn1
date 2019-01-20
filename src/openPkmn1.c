@@ -15,22 +15,19 @@ int main(void)
 	SDL_Renderer* gamerenderer;
 	SDL_Init_Full(&gamewindow, &gamerenderer, SCREEN_TITLE, SCREEN_WIDTH, SCREEN_HEIGHT); 
 
-	// Define all textures and load them into memory.
-	const char* texture_file_list[] = {
-		"sprites/chars_overworld.png",
-		"sprites/tileset.png"
+	// Load and intialize the spritesheet texture.
+	Texture spritesheet;
+	texture_init(&spritesheet, gamerenderer, TEXTURE_FILE_PATH);
+
+	// Define all sprites and their frames.
+	// Manually define for now. Eventually frames will be defined in an editor and loaded from a data file.
+	SDL_Rect sprite_frames[][SPRITE_MAX_FRAMES] = {
+		{{111, 268, 15, 17}, {50, 60, 10, 10}} // Player character
 	};
-	const size_t NUM_TEXTURES = ((sizeof texture_file_list) / (sizeof *texture_file_list));
-	Texture* gametextures[NUM_TEXTURES];
-	textures_loadAll(gametextures, gamerenderer, texture_file_list, NUM_TEXTURES);
-
-	// Define all sprites and load them into memory.
-	// Going to need a better system here. Work in progress.
-	// Right now just a test to create a sprite for player.
-	Sprite player;
-	SDL_Rect player_frames[] = {{111, 268, 15, 17}};
-	sprite_init(&player, gametextures[0], player_frames, (sizeof player_frames) / (sizeof *player_frames));
-
+	const int NUM_SPRITES = (sizeof sprite_frames) / (sizeof *sprite_frames);
+	Sprite* gamesprites[NUM_SPRITES];
+	sprites_initAll(gamesprites, &spritesheet, sprite_frames, NUM_SPRITES);
+	
 	while (!userquit)
 	{
 		SDL_SetFrameLimit(FPS);
@@ -52,16 +49,14 @@ int main(void)
 		}
 
 		SDL_RenderClear(gamerenderer);
-
 		// Render testing here
-		sprite_render(&player);
+
 		// End render testing here
-			
 		SDL_RenderPresent(gamerenderer);
 	}
 
-	sprite_free(&player); // Free test sprite.
-	textures_freeAll(gametextures, NUM_TEXTURES);
+	sprites_freeAll(gamesprites, NUM_SPRITES);
+	texture_free(&spritesheet);
 	SDL_Close(&gamewindow, &gamerenderer);
 
 	return 0;
