@@ -20,11 +20,10 @@ static void player_badges_init(Player* player)
 		player->badges[i] = false;
 }
 
-void player_init(Player* player, Sprite* sprite)
+void player_init(Player* player)
 {
 	player_name_init(player);
 	player->pokedollars = PLAYER_START_CASH;
 	player->time_played = 0;
 	player_badges_init(player);
-	player->sprite = sprite;
 }

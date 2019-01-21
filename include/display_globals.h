@@ -14,4 +14,6 @@
 
 #define SPRITE_MAX_FRAMES 3
 
+#define TILE_SIZE 16
+
 #endif
